@@ -1,9 +1,9 @@
-# Dữ liệu trung gian tải về từ Kaggle — không đưa lên (dung lượng lớn + điều khoản
-# sử dụng của từng competition không cho phép phát tán lại dữ liệu).
+# Intermediate data downloaded from Kaggle — not committed (large, and the
+# per-competition Kaggle terms of use do not allow redistributing the data).
 kaggle-output/*
 !kaggle-output/README.md
 
-# Rác thường gặp
+# Common junk
 __pycache__/
 *.pyc
 .ipynb_checkpoints/

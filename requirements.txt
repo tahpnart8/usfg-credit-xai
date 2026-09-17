@@ -1,6 +1,6 @@
-# Phiên bản chính xác chưa được ghi lại từ môi trường Kaggle đã chạy lần cuối
-# (xem README.md); danh sách dưới đây liệt kê đúng các thư viện bên thứ ba mà
-# tám sổ tay tính toán thực sự import, chưa cố định version.
+# Exact versions were not recorded from the Kaggle environment used for the final
+# run (see README.md); the list below is the accurate set of third-party libraries
+# actually imported across the eight notebooks, without pinned versions.
 numpy
 pandas
 scipy

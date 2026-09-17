@@ -1,64 +1,68 @@
 # USFG: Uncertainty-Stratified Faithfulness Gap
 
-Code cho nghiên cứu kiểm định xem bất định của mô hình (epistemic/aleatoric) có thực sự
-gắn với độ trung thực (faithfulness) của giải thích SHAP/LIME trong bài toán chấm điểm
-tín dụng hay không — và kiểm định luôn chính công cụ đo dùng để trả lời câu hỏi đó,
-trên ba bộ dữ liệu tín dụng công khai (Home Credit Default Risk, Taiwan Credit Default,
-Give Me Some Credit).
+Code for a study testing whether a model's uncertainty (epistemic/aleatoric) is
+actually linked to the faithfulness of its post-hoc explanations (SHAP/LIME) in credit
+scoring — and, at the same time, testing the measuring instrument used to answer that
+question, on three public credit datasets (Home Credit Default Risk, Taiwan Credit
+Default, Give Me Some Credit).
 
-Phát hiện chính: phần lớn mối liên hệ "bất định cao → giải thích kém trung thực" quy
-được về một biến gây nhiễu chung là vị trí xác suất dự báo, chứ không phải một hiệu ứng
-độc lập của bất định lên chất lượng giải thích.
+Main finding: most of the apparent "higher uncertainty → less faithful explanation"
+association is attributable to a shared confounder, the predicted probability position,
+rather than to an independent effect of uncertainty on explanation quality.
 
-## Cấu trúc pipeline
+## Pipeline structure
 
-Tám sổ tay tính toán (notebook), chạy tuần tự:
+Eight computational notebooks, run in sequence:
 
-| Notebook | Vai trò | Môi trường chạy |
+| Notebook | Role | Run environment |
 |---|---|---|
-| `NB1_preprocess.ipynb` | Tiền xử lý ba bộ dữ liệu, chia tập | Kaggle |
-| `NB2_train_M1_xgboost.ipynb` | Huấn luyện mốc XGBoost (M1) | Kaggle |
-| `NB3_train_basins.ipynb` | Huấn luyện 50 lòng chảo mạng nơ-ron | Kaggle (GPU) |
-| `NB4_budget_grid.ipynb` | Lưới ngân sách M × T = 50, dựng bốn kiến trúc M2–M5 | Kaggle |
-| `NB5_compute_xai.ipynb` | Sinh giải thích SHAP/LIME, đo Comprehensiveness/Sufficiency | Kaggle (GPU) |
-| `NB6_table.ipynb` | Tổng hợp bảng kết quả từ đầu ra NB1–NB5 | Local |
-| `NB7_visualize.ipynb` | Dựng toàn bộ hình trong bài | Local |
-| `NB8_validate_usfg.ipynb` | Kiểm định cấu trúc chỉ số USFG-c trên dữ liệu mô phỏng | Local |
+| `NB1_preprocess.ipynb` | Preprocess the three datasets, build splits | Kaggle |
+| `NB2_train_M1_xgboost.ipynb` | Train the XGBoost benchmark (M1) | Kaggle |
+| `NB3_train_basins.ipynb` | Train the pool of 50 neural network basins | Kaggle (GPU) |
+| `NB4_budget_grid.ipynb` | M x T = 50 budget grid, build architectures M2-M5 | Kaggle |
+| `NB5_compute_xai.ipynb` | Generate SHAP/LIME explanations, measure Comprehensiveness/Sufficiency | Kaggle (GPU) |
+| `NB6_table.ipynb` | Aggregate result tables from NB1-NB5 outputs | Local |
+| `NB7_visualize.ipynb` | Build every figure in the report | Local |
+| `NB8_validate_usfg.ipynb` | Construct-validate the USFG-c metric on simulated data | Local |
 
-`NB1`–`NB5` cần chạy trên Kaggle (đọc dữ liệu qua `/kaggle/input/...`, cần GPU cho `NB3`
-và `NB5`). `NB6`–`NB8` chạy trên máy cá nhân, đọc kết quả trung gian qua đường dẫn tương
-đối `../kaggle-output/` và ghi bảng/hình cuối vào `../result/`.
+`NB1`-`NB5` must run on Kaggle (they read data through `/kaggle/input/...`, and `NB3`
+and `NB5` need a GPU). `NB6`-`NB8` run on a local machine, reading intermediate results
+through the relative paths `../kaggle-output/` and `../result/`.
 
-## Tái lập kết quả
+## Reproducing the results
 
-1. Trên Kaggle, tạo notebook mới cho từng `NB1`–`NB5`, đính kèm ba bộ dữ liệu:
+1. On Kaggle, create a new notebook for each of `NB1`-`NB5` and attach the three
+   datasets:
    - [Home Credit Default Risk](https://www.kaggle.com/competitions/home-credit-default-risk)
-   - [Taiwan Credit Default (UCI, qua Kaggle)](https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset)
+   - [Taiwan Credit Default (UCI, via Kaggle)](https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset)
    - [Give Me Some Credit](https://www.kaggle.com/competitions/GiveMeSomeCredit)
-2. Chạy lần lượt `NB1` → `NB2` → `NB3` → `NB4` → `NB5`, tải đầu ra `/kaggle/working/` về
-   máy, sắp vào `kaggle-output/` theo cấu trúc mô tả ở `kaggle-output/README.md`.
-3. Chạy `NB6`, `NB7`, `NB8` tại thư mục `notebooks/` (đường dẫn tương đối `../result/`,
-   `../kaggle-output/` giả định notebook đang chạy từ đúng vị trí này).
+2. Run `NB1` -> `NB2` -> `NB3` -> `NB4` -> `NB5` in order, download each `/kaggle/working/`
+   output, and place it under `kaggle-output/` following the structure described in
+   `kaggle-output/README.md`.
+3. Run `NB6`, `NB7`, `NB8` from the `notebooks/` directory (the relative paths
+   `../result/` and `../kaggle-output/` assume the notebook is running from that exact
+   location).
 
-Hạt giống ngẫu nhiên gốc cố định ở 42, mọi hạt giống dẫn xuất sinh tất định từ nó, trừ
-một ngoại lệ: phép đo độ tái lập của giải thích dựa vào bộ sinh số ngẫu nhiên nội tại
-của công cụ giải thích (SHAP/LIME), nên riêng bảng độ ổn định không tái lập được từng
-chữ số giữa các lần chạy.
+The root random seed is fixed at 42, and every derived seed is generated deterministically
+from it, with one exception: the explanation reproducibility measurement relies on the
+explanation tool's own internal random number generator (SHAP/LIME), so the stability
+table alone is not reproducible digit for digit across runs.
 
 ## `result/`
 
-Bảng và hình đã tổng hợp sẵn (đầu ra của `NB6`–`NB8`), đủ nhỏ và không chứa thông tin
-định danh cá nhân nên được đưa thẳng lên repo để người đọc xem/dùng lại mà không cần
-chạy lại toàn bộ pipeline.
+Pre-aggregated tables and figures (the output of `NB6`-`NB8`), small enough and free of
+any personally identifying information, so they are committed directly to the repo for
+readers to inspect or reuse without having to rerun the full pipeline.
 
-## Giấy phép
+## License
 
-Mã nguồn trong repo này phát hành theo giấy phép MIT (xem `LICENSE`). Giấy phép này áp
-dụng cho *code*; ba bộ dữ liệu tín dụng dùng trong nghiên cứu tuân theo điều khoản sử
-dụng riêng của từng competition/dataset trên Kaggle, không thuộc phạm vi MIT nói trên và
-không được đóng gói lại trong repo này.
+The source code in this repository is released under the MIT License (see `LICENSE`).
+That license applies to the *code*; the three credit datasets used in the study are
+subject to their own usage terms on Kaggle, are not covered by the MIT license above,
+and are not redistributed in this repository.
 
-## Trích dẫn
+## Citation
 
-Nếu dùng lại mã nguồn hoặc kết quả trong repo này, vui lòng trích dẫn báo cáo nghiên
-cứu tương ứng (BIT GENESIS RESEARCH AWARDS 2026, Đại học Kinh tế Thành phố Hồ Chí Minh).
+If you reuse the code or results in this repository, please cite the corresponding
+research report (BIT GENESIS RESEARCH AWARDS 2026, University of Economics Ho Chi Minh
+City).

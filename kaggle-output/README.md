@@ -1,15 +1,17 @@
 # kaggle-output/
 
-Thư mục này giữ chỗ cho kết quả trung gian do `NB1`–`NB5` sinh ra khi chạy trên Kaggle
-(mô hình đã huấn luyện, giải thích SHAP/LIME, bảng bất định theo từng hồ sơ...). Nội
-dung không được đưa lên repo vì dung lượng lớn và vì dữ liệu ba bộ tín dụng gốc chỉ
-được phép dùng trong phạm vi từng competition Kaggle, không được phát tán lại.
+This directory is a placeholder for the intermediate results produced by `NB1`-`NB5`
+when run on Kaggle (trained models, SHAP/LIME explanations, per-applicant uncertainty
+tables, ...). The contents are not committed to the repository because of their size
+and because the three underlying credit datasets may only be used within the scope of
+their respective Kaggle competitions, not redistributed elsewhere.
 
-Để tái lập, tự tạo cấu trúc sau sau khi chạy `NB1`–`NB5` trên Kaggle và tải kết quả về:
+To reproduce, run `NB1`-`NB5` on Kaggle, download the results, and recreate the
+following structure:
 
 ```
 kaggle-output/
-  NB1-outputs/       # NB1_preprocess.ipynb
+  NB1-outputs/        # NB1_preprocess.ipynb
   NB2-outputs/        # NB2_train_M1_xgboost.ipynb
   NB3-outputs/
     NB3-result/        # NB3_train_basins.ipynb
@@ -17,4 +19,4 @@ kaggle-output/
   NB5-outputs/        # NB5_compute_xai.ipynb
 ```
 
-Xem hướng dẫn đầy đủ ở `README.md` tại thư mục gốc của repo.
+See the full instructions in the `README.md` at the repository root.
