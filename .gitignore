@@ -1,0 +1,14 @@
+# Dữ liệu trung gian tải về từ Kaggle — không đưa lên (dung lượng lớn + điều khoản
+# sử dụng của từng competition không cho phép phát tán lại dữ liệu).
+kaggle-output/*
+!kaggle-output/README.md
+
+# Rác thường gặp
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+~$*
+.env
+kaggle.json

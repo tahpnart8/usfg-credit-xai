@@ -1,0 +1,15 @@
+# Phiên bản chính xác chưa được ghi lại từ môi trường Kaggle đã chạy lần cuối
+# (xem README.md); danh sách dưới đây liệt kê đúng các thư viện bên thứ ba mà
+# tám sổ tay tính toán thực sự import, chưa cố định version.
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+torch
+xgboost
+shap
+lime
+joblib
+ucimlrepo
+jupyter

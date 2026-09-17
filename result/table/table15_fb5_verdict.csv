@@ -1,0 +1,6 @@
+Metric,Label,T1_calibration,T2_dose_response,T3_magnitude,T4_error_rates,VALIDATED,bias,single_run_floor,SNR,MDE
+Comp_prob,Raw Comprehensiveness (as in the proposal),False,True,False,False,False,1.7343,1.7833,0.1,
+NRC,NRC (normalised by p_null),True,True,False,False,False,0.0569,0.1062,1.44,0.166
+decileZ(Comp),decileZ(Comp),True,False,False,False,False,0.0615,0.0551,1.58,
+decileZ(NRC),decileZ(NRC)  <- proposed variant,True,True,True,True,True,0.0228,0.0453,8.09,0.215
+logit-frac,Logit-space fraction,True,True,False,True,False,0.0278,0.0983,1.58,0.172
